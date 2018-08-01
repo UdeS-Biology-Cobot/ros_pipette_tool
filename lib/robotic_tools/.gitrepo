@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/cpt-yoshi/robotic_tools.git
+	branch = master
+	commit = 7daa6e6c9dafd5ed107b2b0225a3584db71cfe09
+	parent = none
+	cmdver = 0.3.1
