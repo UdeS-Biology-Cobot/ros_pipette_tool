@@ -36,6 +36,7 @@ PipetteToolControl::PipetteToolControl(PtMasterProtocol* pt, PipetteToolControlE
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
 		return;
 	}
+	std::cout << "max_volume = " << max_volume_nl << std::endl;
 }
 
 

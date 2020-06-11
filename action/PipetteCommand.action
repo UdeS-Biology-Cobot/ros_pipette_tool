@@ -1,0 +1,9 @@
+PipetteCommand command
+---
+bool success
+uint32 err
+---
+float32 completion   # TODO %
+uint32 rem_aspirate_volume_nl # 
+uint32 rem_dispense_volume_nl # 
+bool moving

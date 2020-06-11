@@ -19,7 +19,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-)
+  message_generation
+  actionlib_msgs
+  actionlib
+  )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -55,11 +58,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   PipetteCommand.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -69,17 +71,17 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+   FILES
+   PipetteCommand.action
+)
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+   actionlib_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -113,7 +115,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #   LIBRARIES robotic_tool
-   CATKIN_DEPENDS roscpp rospy std_msgs
+   CATKIN_DEPENDS roscpp rospy std_msgs actionlib_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -131,7 +133,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 
 # Libray 'robotic_tool' header and sources
-set(ROBOTIC_TOOL_INCLUDE_DIRS lib/include)
+set(ROBOTIC_TOOL_INCLUDE_DIRS lib/include include)
 
 #Debug only
 file(GLOB_RECURSE ROBOTIC_TOOL_SRC "lib/src/*.cpp")
@@ -151,10 +153,15 @@ add_library(robotic_tool ${ROBOTIC_TOOL_SRC})
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/ros_main.cpp)
+add_executable(${PROJECT_NAME}_pipette_tool_action_server src/pipette_tool_action_server.cpp)
+add_executable(${PROJECT_NAME}_example src/example.cpp)
+add_executable(${PROJECT_NAME}_pipette_tool_action_client src/pipette_tool_action_client.cpp)
+
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -170,12 +177,23 @@ set_target_properties(robotic_tool PROPERTIES LINKER_LANGUAGE CXX)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_node
+target_link_libraries(${PROJECT_NAME}_pipette_tool_action_server
+   ${catkin_LIBRARIES}
+   robotic_tool
+   )
+
+target_link_libraries(${PROJECT_NAME}_pipette_tool_action_client
+   ${catkin_LIBRARIES}
+)
+
+
+target_link_libraries(${PROJECT_NAME}_example
    ${catkin_LIBRARIES}
    robotic_tool
 )
 
-
+add_dependencies(${PROJECT_NAME}_pipette_tool_action_server robotic_tool_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_pipette_tool_action_client robotic_tool_generate_messages_cpp)
 #############
 ## Install ##
 #############
