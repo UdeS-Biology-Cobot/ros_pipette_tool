@@ -26,8 +26,8 @@ int main(int argc, char** argv) {
 	goal.command.mode = goal.command.MODE_FORWARD;
 	goal.command.action = goal.command.ACTION_INIT;
 	goal.command.velocity = 0.005;
-	goal.command.volume_nl = 40000;
-	goal.command.offset_nl = 60000;
+	goal.command.volume_nl = 200000;
+	goal.command.offset_nl = 20000;
 	ac.sendGoal(goal);
 
 	// wait for the action to return
@@ -49,6 +49,21 @@ int main(int argc, char** argv) {
 	} else
 		ROS_INFO("Action did not finish before the time out.");
 
+	for (int i = 0; i < 96; i++) {
+		goal.command.action = goal.command.ACTION_DISPENSE;
+		goal.command.velocity = 0.02;
+		goal.command.volume_nl = 2080;
+		goal.command.offset_nl = 0;
+		ac.sendGoal(goal);
+		finished_before_timeout = ac.waitForResult(ros::Duration(10.0));
+
+		if (finished_before_timeout) {
+			actionlib::SimpleClientGoalState state = ac.getState();
+			ROS_INFO("Action finished: %s", state.toString().c_str());
+		} else
+			ROS_INFO("Action did not finish before the time out.");
+	}
+	return 0;
 	goal.command.action = goal.command.ACTION_DISPENSE;
 	ac.sendGoal(goal);
 	finished_before_timeout = ac.waitForResult(ros::Duration(10.0));

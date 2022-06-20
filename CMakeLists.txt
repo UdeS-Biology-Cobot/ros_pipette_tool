@@ -160,6 +160,7 @@ add_library(robotic_tool ${ROBOTIC_TOOL_SRC})
 add_executable(${PROJECT_NAME}_pipette_tool_action_server src/pipette_tool_action_server.cpp)
 add_executable(${PROJECT_NAME}_example src/example.cpp)
 add_executable(${PROJECT_NAME}_pipette_tool_action_client src/pipette_tool_action_client.cpp)
+add_executable(${PROJECT_NAME}_multi_dispense src/pipette_tool_action_client_multi_dispense.cpp)
 
 
 
@@ -186,6 +187,9 @@ target_link_libraries(${PROJECT_NAME}_pipette_tool_action_client
    ${catkin_LIBRARIES}
 )
 
+target_link_libraries(${PROJECT_NAME}_multi_dispense
+   ${catkin_LIBRARIES}
+)
 
 target_link_libraries(${PROJECT_NAME}_example
    ${catkin_LIBRARIES}
@@ -194,6 +198,7 @@ target_link_libraries(${PROJECT_NAME}_example
 
 add_dependencies(${PROJECT_NAME}_pipette_tool_action_server robotic_tool_generate_messages_cpp)
 add_dependencies(${PROJECT_NAME}_pipette_tool_action_client robotic_tool_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_multi_dispense robotic_tool_generate_messages_cpp)
 #############
 ## Install ##
 #############

@@ -12,17 +12,14 @@
 // TODO delete
 #include <iostream>
 
-PipetteToolControl::PipetteToolControl(PtMasterProtocol* pt, PipetteToolControlErr* p_err)
-: pt(pt)
-{
+PipetteToolControl::PipetteToolControl(PtMasterProtocol* pt, PipetteToolControlErr* p_err) : pt(pt) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
-	pt->move_to_tip(&err_pt);
+	pt->do_homing(&err_pt);
 	if (pt->err_get(&err_pt)) {
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
 		return;
 	}
-
 	max_speed = pt->get_max_speed(&err_pt);
 	if (pt->err_get(&err_pt)) {
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
@@ -30,18 +27,31 @@ PipetteToolControl::PipetteToolControl(PtMasterProtocol* pt, PipetteToolControlE
 	}
 	std::cout << "max_speed = " << max_speed << std::endl;
 
-
-	max_volume_nl = pt->get_max_nl(&err_pt) ;
+	max_volume_nl = pt->get_max_nl(&err_pt);
 	if (pt->err_get(&err_pt)) {
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
 		return;
 	}
 	std::cout << "max_volume = " << max_volume_nl << std::endl;
+	/*
+	   pt->move_to_tip(&err_pt);
+	   if (pt->err_get(&err_pt)) {
+	      *p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
+	      return;
+	   }
+	*/
+}
+void PipetteToolControl::homing(double speed, PipetteToolControlErr* p_err) {
+	PtProtocolErr err_pt = PtProtocolErr::NONE;
+
+	pt->do_homing(&err_pt);
+	if (pt->err_get(&err_pt)) {
+		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
+		return;
+	}
 }
 
-
-void PipetteToolControl::forward_init(uint32_t offset_nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::forward_init(uint32_t offset_nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	pt->move_to_tip(&err_pt);
@@ -51,7 +61,9 @@ void PipetteToolControl::forward_init(uint32_t offset_nl, double speed, PipetteT
 	}
 
 	validate_volume(offset_nl, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->aspirate(offset_nl, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -60,12 +72,13 @@ void PipetteToolControl::forward_init(uint32_t offset_nl, double speed, PipetteT
 	}
 }
 
-void PipetteToolControl::forward_aspirate(uint32_t nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::forward_aspirate(uint32_t nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	validate_volume(nl, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->aspirate(nl, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -74,14 +87,14 @@ void PipetteToolControl::forward_aspirate(uint32_t nl, double speed, PipetteTool
 	}
 }
 
-
-void PipetteToolControl::forward_dispense(uint32_t nl, uint32_t offset_nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::forward_dispense(uint32_t nl, uint32_t offset_nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 	uint32_t volume = nl + offset_nl;
 
 	validate_volume(-(int32_t)volume, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->dispense(volume, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -89,10 +102,38 @@ void PipetteToolControl::forward_dispense(uint32_t nl, uint32_t offset_nl, doubl
 		return;
 	}
 }
+void PipetteToolControl::forward_aspirate_sequence(uint32_t nl, double speed, int seq, PipetteToolControlErr* p_err) {
+	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
+	validate_volume(nl, p_err);
+	if (err_get(p_err)) {
+		return;
+	}
 
-void PipetteToolControl::reverse_init(double speed, PipetteToolControlErr* p_err)
-{
+	pt->multiple_sequence(nl, speed, PtMasterProtocol::Direction::ASPIRATE, seq * 2, &err_pt);
+	if (pt->err_get(&err_pt)) {
+		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
+		return;
+	}
+}
+
+void PipetteToolControl::forward_dispense_sequence(uint32_t nl, uint32_t offset_nl, double speed, int seq,
+                                                   PipetteToolControlErr* p_err) {
+	PtProtocolErr err_pt = PtProtocolErr::NONE;
+
+	validate_volume(-(int32_t)nl, p_err);
+	if (err_get(p_err)) {
+		return;
+	}
+
+	pt->multiple_sequence(nl, speed, PtMasterProtocol::Direction::DISPENSE, seq * 2, &err_pt);
+	if (pt->err_get(&err_pt)) {
+		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
+		return;
+	}
+}
+
+void PipetteToolControl::reverse_init(double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	pt->move_to_tip(&err_pt);
@@ -102,14 +143,14 @@ void PipetteToolControl::reverse_init(double speed, PipetteToolControlErr* p_err
 	}
 }
 
-
-void PipetteToolControl::reverse_aspirate(uint32_t nl, uint32_t offset_nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::reverse_aspirate(uint32_t nl, uint32_t offset_nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 	uint32_t volume = nl + offset_nl;
 
 	validate_volume((int32_t)volume, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->aspirate(volume, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -118,13 +159,13 @@ void PipetteToolControl::reverse_aspirate(uint32_t nl, uint32_t offset_nl, doubl
 	}
 }
 
-
-void PipetteToolControl::reverse_dispense(uint32_t nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::reverse_dispense(uint32_t nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	validate_volume(-(int32_t)nl, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->dispense(nl, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -133,9 +174,7 @@ void PipetteToolControl::reverse_dispense(uint32_t nl, double speed, PipetteTool
 	}
 }
 
-
-void PipetteToolControl::eject(PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::eject(PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	pt->eject_tip(&err_pt);
@@ -149,14 +188,22 @@ void PipetteToolControl::eject(PipetteToolControlErr* p_err)
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
 		return;
 	}
+
+	// Disable motor so that it dosen't get to hot!
+	pt->enable_motor(false, &err_pt);
+	if (pt->err_get(&err_pt)) {
+		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
+		return;
+	}
 }
 
-void PipetteToolControl::aspirate(uint32_t nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::aspirate(uint32_t nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	validate_volume((int32_t)nl, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->aspirate(nl, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -165,13 +212,13 @@ void PipetteToolControl::aspirate(uint32_t nl, double speed, PipetteToolControlE
 	}
 }
 
-
-void PipetteToolControl::dispense(uint32_t nl, double speed, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::dispense(uint32_t nl, double speed, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	validate_volume(-(int32_t)nl, p_err);
-	if (err_get(p_err)) {return;}
+	if (err_get(p_err)) {
+		return;
+	}
 
 	pt->dispense(nl, speed, &err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -180,39 +227,27 @@ void PipetteToolControl::dispense(uint32_t nl, double speed, PipetteToolControlE
 	}
 }
 
-uint32_t PipetteToolControl::get_max_volume_nl(PipetteToolControlErr* p_err)
-{
+uint32_t PipetteToolControl::get_max_volume_nl(PipetteToolControlErr* p_err) {
 	return max_volume_nl;
 }
 
-
-
-
-
-double PipetteToolControl::get_max_speed()
-{
+double PipetteToolControl::get_max_speed() {
 	return max_speed;
 }
 
-
-bool PipetteToolControl::err_get(PipetteToolControlErr* p_err)
-{
+bool PipetteToolControl::err_get(PipetteToolControlErr* p_err) {
 	if (*p_err == PipetteToolControlErr::NONE) {
 		return false;
 	}
 	return true;
 }
 
-void PipetteToolControl::err_clear(PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::err_clear(PipetteToolControlErr* p_err) {
 	*p_err = PipetteToolControlErr::NONE;
 }
 
-
-uint32_t PipetteToolControl::get_rem_aspirate_vol_nl(PipetteToolControlErr* p_err)
-{
+uint32_t PipetteToolControl::get_rem_aspirate_vol_nl(PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
-
 
 	uint32_t vol = pt->get_rem_aspirate_vol_nl(&err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -222,11 +257,8 @@ uint32_t PipetteToolControl::get_rem_aspirate_vol_nl(PipetteToolControlErr* p_er
 	return vol;
 }
 
-
-uint32_t PipetteToolControl::get_rem_dispense_vol_nl(PipetteToolControlErr* p_err)
-{
+uint32_t PipetteToolControl::get_rem_dispense_vol_nl(PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
-
 
 	uint32_t vol = pt->get_rem_dispense_vol_nl(&err_pt);
 	if (pt->err_get(&err_pt)) {
@@ -236,29 +268,32 @@ uint32_t PipetteToolControl::get_rem_dispense_vol_nl(PipetteToolControlErr* p_er
 	return vol;
 }
 
-
-
-
-
-
-void PipetteToolControl::validate_volume(int32_t volume, PipetteToolControlErr* p_err)
-{
+void PipetteToolControl::validate_volume(int32_t volume, PipetteToolControlErr* p_err) {
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
 
 	uint32_t rem_dispense_vol_nl = pt->get_rem_dispense_vol_nl(&err_pt);
+	std::cout << "rem_dispense_nl = " << std::to_string(rem_dispense_vol_nl) << std::endl;
 	if (pt->err_get(&err_pt)) {
+		std::cout << "Debug 11" << std::endl;
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
 		return;
 	}
 
 	uint32_t rem_aspirate_vol_nl = pt->get_rem_aspirate_vol_nl(&err_pt);
+	std::cout << "rem_aspirate_nl = " << std::to_string(rem_aspirate_vol_nl) << std::endl;
 	if (pt->err_get(&err_pt)) {
+		std::cout << "Debug12" << std::endl;
 		*p_err = PipetteToolControlErr::PT_MASTER_PROTOCOL;
 		return;
 	}
 
 	if (volume < 0) {
+		// HACK
+		return;
 		if ((int32_t)rem_dispense_vol_nl + volume < 0) {
+			std::cout << "Volume out of bond" << std::endl;
+			std::cout << "volume = " << std::to_string(volume) << std::endl;
+			std::cout << "rem_dispense_vol_nl" << std::to_string(rem_dispense_vol_nl) << std::endl;
 			*p_err = PipetteToolControlErr::VOLUME_OUT_OF_BOUND;
 			return;
 		}
@@ -270,4 +305,4 @@ void PipetteToolControl::validate_volume(int32_t volume, PipetteToolControlErr* 
 	}
 }
 
-#endif	// __linux__
+#endif  // __linux__
