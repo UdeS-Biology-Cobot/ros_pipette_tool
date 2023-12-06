@@ -1,0 +1,3 @@
+[submodule "ext/pipette-tool-sw"]
+	path = ext/pipette-tool-sw
+	url = https://github.com/captain-yoshi/pipette-tool-sw
