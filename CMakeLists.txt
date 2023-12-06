@@ -59,40 +59,39 @@ include_directories(
 
 add_library(robotic_tool ${ROBOTIC_TOOL_SRC})
 
-add_executable(${PROJECT_NAME}_pipette_tool_action_server src/pipette_tool_action_server.cpp)
-add_executable(${PROJECT_NAME}_example src/example.cpp)
-add_executable(${PROJECT_NAME}_pipette_tool_action_client src/pipette_tool_action_client.cpp)
-add_executable(${PROJECT_NAME}_multi_dispense src/pipette_tool_action_client_multi_dispense.cpp)
+add_executable(pipette_tool_example src/example.cpp)
+add_executable(pipette_tool_action_server src/pipette_tool_action_server.cpp)
+add_executable(pipette_tool_action_client src/pipette_tool_action_client.cpp)
+add_executable(pipette_tool_action_client_multi_dispense src/pipette_tool_action_client_multi_dispense.cpp)
 
-## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_pipette_tool_action_server
+target_link_libraries(pipette_tool_example
+   ${catkin_LIBRARIES}
+   robotic_tool
+)
+
+target_link_libraries(pipette_tool_action_server
    ${catkin_LIBRARIES}
    robotic_tool
    )
 
-target_link_libraries(${PROJECT_NAME}_pipette_tool_action_client
+target_link_libraries(pipette_tool_action_client
    ${catkin_LIBRARIES}
 )
 
-target_link_libraries(${PROJECT_NAME}_multi_dispense
+target_link_libraries(pipette_tool_action_client_multi_dispense
    ${catkin_LIBRARIES}
 )
 
-target_link_libraries(${PROJECT_NAME}_example
-   ${catkin_LIBRARIES}
-   robotic_tool
-)
-
-add_dependencies(${PROJECT_NAME}_pipette_tool_action_server ${PROJECT_NAME}_generate_messages_cpp)
-add_dependencies(${PROJECT_NAME}_pipette_tool_action_client ${PROJECT_NAME}_generate_messages_cpp)
-add_dependencies(${PROJECT_NAME}_multi_dispense ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_server ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_multi_dispense ${PROJECT_NAME}_generate_messages_cpp)
 
 
 install(TARGETS
-    ${PROJECT_NAME}_pipette_tool_action_server
-    ${PROJECT_NAME}_pipette_tool_action_client
-    ${PROJECT_NAME}_multi_dispense
-    ${PROJECT_NAME}_example
+    pipette_tool_example
+    pipette_tool_action_server
+    pipette_tool_action_client
+    pipette_tool_action_client_multi_dispense
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
