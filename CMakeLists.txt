@@ -83,6 +83,11 @@ target_link_libraries(${PROJECT_NAME}_example
    robotic_tool
 )
 
+add_dependencies(${PROJECT_NAME}_pipette_tool_action_server ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_pipette_tool_action_client ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_multi_dispense ${PROJECT_NAME}_generate_messages_cpp)
+
+
 install(TARGETS
     ${PROJECT_NAME}_pipette_tool_action_server
     ${PROJECT_NAME}_pipette_tool_action_client
