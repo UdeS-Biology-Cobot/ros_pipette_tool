@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 	boost::asio::serial_port port(io);
 
 	const std::string device = "/dev/pipette_tool";
-	uint32_t baudrate = 2000000;
+	uint32_t baudrate = 9600;
 
 
 	PtProtocolErr err_pt = PtProtocolErr::NONE;
