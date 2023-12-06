@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
 	size_t errors = 0;
 	errors += !ros::param::get("~baudrate", baudrate);
 	errors += !ros::param::get("~device", device);
-	errors += !ros::param::get("~action_server", action_server);
+	errors += !ros::param::get("~action_server_topic", action_server);
 
 	ROS_ERROR_STREAM(device);
 	ROS_ERROR_STREAM(action_server);
