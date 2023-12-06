@@ -5,7 +5,7 @@
 #include <ros_robotic_tools/PipetteCommand.h>
 
 int main(int argc, char** argv) {
-	ros::init(argc, argv, "test_robotiq_2f_gripper_action_server");
+	ros::init(argc, argv, "pipette_tool_action_client_multi_dispense");
 
 	ros::NodeHandle pnh("~");
 

@@ -74,7 +74,7 @@ void eject(PipetteToolControl pt_ctrl, PipetteToolControlErr* p_err) {
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "robotic_tools");
+	ros::init(argc, argv, "pipette_tool_example");
 
 
 	boost::asio::io_service io;
