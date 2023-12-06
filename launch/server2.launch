@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 <!-- PipetteTool -->
-    <node name="pipette_200ul" pkg="robotic_tool" type="robotic_tool_pipette_tool_action_server" output="screen">
+    <node name="pipette_200ul" pkg="ros_robotic_tools" type="ros_robotic_tools_pipette_tool_action_server" output="screen">
         <param name="baudrate" type="int" value="1000000"/>
 	<param name="device" type="str" value="/home/captain-yoshi/.local/dev/pipette_test"/>
         <param name="action_server" type="str" value="/udes_pipette"/>

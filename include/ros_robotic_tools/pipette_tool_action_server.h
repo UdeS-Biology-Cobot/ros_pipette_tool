@@ -1,8 +1,8 @@
 #pragma once
 
 #include <actionlib/server/simple_action_server.h>
-#include <robotic_tool/PipetteCommand.h>
-#include <robotic_tool/PipetteCommandAction.h>
+#include <ros_robotic_tools/PipetteCommand.h>
+#include <ros_robotic_tools/PipetteCommandAction.h>
 #include <ros/ros.h>
 
 #include <robotic_tool/pipette_tool/protocol/posix/pt_master_protocol.h>
@@ -23,14 +23,14 @@ public:
 
 protected:
 	ros::NodeHandle nh_;
-	actionlib::SimpleActionServer<robotic_tool::PipetteCommandAction> as_;
+	actionlib::SimpleActionServer<ros_robotic_tools::PipetteCommandAction> as_;
 	std::string action_name_;
 	int data_count_;
 	float sum_, sum_sq_;
 
-	// robotic_tool::PipetteCommand goal_;
-	robotic_tool::PipetteCommandFeedback feedback_;
-	robotic_tool::PipetteCommandResult result_;
+	// ros_robotic_tools::PipetteCommand goal_;
+	ros_robotic_tools::PipetteCommandFeedback feedback_;
+	ros_robotic_tools::PipetteCommandResult result_;
 	ros::Subscriber sub_;
 	ros::Publisher pub_;
 

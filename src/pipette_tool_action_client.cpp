@@ -1,8 +1,8 @@
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
-#include <robotic_tool/PipetteCommandAction.h>
-#include <robotic_tool/PipetteCommand.h>
+#include <ros_robotic_tools/PipetteCommandAction.h>
+#include <ros_robotic_tools/PipetteCommand.h>
 
 int main(int argc, char** argv) {
 	ros::init(argc, argv, "test_robotiq_2f_gripper_action_server");
@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 
 	// create the action client
 	// true causes the client to spin its own thread
-	actionlib::SimpleActionClient<robotic_tool::PipetteCommandAction> ac(tool_name, true);
+	actionlib::SimpleActionClient<ros_robotic_tools::PipetteCommandAction> ac(tool_name, true);
 
 	ROS_INFO("Waiting for action server to start.");
 	// wait for the action server to start
@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 
 	ROS_INFO("Action server started, sending goal.");
 	// send a goal to the action
-	robotic_tool::PipetteCommandGoal goal;
+	ros_robotic_tools::PipetteCommandGoal goal;
 	goal.command.mode = goal.command.MODE_FORWARD;
 	goal.command.action = goal.command.ACTION_INIT;
 	goal.command.velocity = 0.005;
