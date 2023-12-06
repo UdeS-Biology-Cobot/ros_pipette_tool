@@ -2,7 +2,7 @@
 <launch>
 <!-- PipetteTool -->
     <node name="pipette_200ul" pkg="robotic_tool" type="robotic_tool_pipette_tool_action_server" output="screen">
-        <param name="baudrate" type="int" value="1000000"/>
+        <param name="baudrate" type="int" value="9600"/>
         <param name="device" type="str" value="/dev/pipette_tool"/>
         <param name="action_server" type="str" value="/udes_pipette"/>
     </node>
