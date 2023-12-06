@@ -8,7 +8,6 @@ PipetteToolActionServer::PipetteToolActionServer(std::string name, PipetteToolCo
 	as_.registerPreemptCallback(boost::bind(&PipetteToolActionServer::preemptCB, this));
 
 	// subscribe to the data topic of interest
-	ROS_INFO("Action server Starting");
 	as_.start();
 }
 
@@ -172,8 +171,8 @@ int main(int argc, char** argv) {
 	errors += !ros::param::get("~device", device);
 	errors += !ros::param::get("~action_server_topic", action_server);
 
-	ROS_ERROR_STREAM(device);
-	ROS_ERROR_STREAM(action_server);
+	ROS_INFO_STREAM("Serial device: " << device);
+	ROS_INFO_STREAM("Action server topic: " << action_server);
 
 	if (errors) {
 		ROS_ERROR_STREAM("Somme paramters are missing...");
@@ -186,25 +185,23 @@ int main(int argc, char** argv) {
 
 	PtMasterProtocol pt(&port, baudrate, device);
 	PipetteToolControlErr err_ptc_ = PipetteToolControlErr::NONE;
-	ROS_INFO("OHLALA1V");
 
-	PipetteToolControl ptc_(&pt, &err_ptc_);
+	PipetteToolControl ptc_(&pt);
+
+	// Retrieve information
+	ROS_INFO("Retrieving Pipette information...\n");
+
+	double max_speed = ptc_.get_max_speed(&err_ptc_);
 	if (ptc_.err_get(&err_ptc_)) {
 		ROS_ERROR_STREAM("PipetteToolControl error code = " << (uint32_t)err_ptc_);
 		return -1;
 	}
-	ROS_INFO("HACK");
 
-	// HACK prepare forward pipette init
+	ROS_INFO("==== Pipette Information ====");
+	ROS_INFO_STREAM("Max speed (m/s) = " << max_speed);
+	ROS_INFO("=============================\n");
 
-	ptc_.forward_init(20000, 0.01, &err_ptc_);
-	ROS_INFO("HACKKKKKKK");
-	if (ptc_.err_get(&err_ptc_)) {
-		ROS_ERROR_STREAM("PipetteToolControl error code = " << (uint32_t)err_ptc_);
-		return -1;
-	}
-	ROS_INFO("OHLALA");
-
+	ROS_INFO("Action server started");
 	PipetteToolActionServer as(action_server, ptc_);
 	ros::spin();
 
