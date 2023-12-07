@@ -75,8 +75,7 @@ void PipetteToolActionServer::goalCB() {
 			}
 			break;
 		case goal.ACTION_EJECT:
-			ptc_.eject(p_err);
-			// ptc_.eject(goal.velocity, p_err);
+			ptc_.eject(goal.velocity, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;
