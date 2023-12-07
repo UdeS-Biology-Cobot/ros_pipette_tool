@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="action_server_topic" default="/robotic_tools/pipette"/>
+
     <node name="pipette_tool_action_client_multi_dispense" pkg="ros_robotic_tools" type="pipette_tool_action_client_reverse_pipetting" output="screen">
-        <param name="action_server_topic" type="str" value="/udes_pipette"/>
+        <param name="action_server_topic" value="$(arg action_server_topic)"/>
         <param name="pipetting_default_speed"  value="0.0"/>    <!-- No liquid in tip @ full speed -->
         <param name="pipetting_aspirate_speed" value="0.010"/>  <!-- Liquid in tip @ 10 mm/sec     -->
         <param name="pipetting_dispense_speed" value="0.003"/>  <!-- Liquid in tip @ 3 mm/sec      -->

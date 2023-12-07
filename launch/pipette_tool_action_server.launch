@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <launch>
-<!-- PipetteTool -->
+    <arg name="device" default="/dev/pipette_tool"/>
+    <arg name="baudrate" default="9600"/>
+    <arg name="action_server_topic" default="/robotic_tools/pipette"/>
+
     <node name="pipette_tool_action_server" pkg="ros_robotic_tools" type="pipette_tool_action_server" output="screen">
-        <param name="baudrate" type="int" value="9600"/>
-        <param name="device" type="str" value="/dev/pipette_tool"/>
-        <param name="action_server_topic" type="str" value="/udes_pipette"/>
+        <param name="device" value="$(arg device)"/>
+        <param name="baudrate" value="$(arg baudrate)"/>
+        <param name="action_server_topic" value="$(arg action_server_topic)"/>
     </node>
-    </launch>
+</launch>
