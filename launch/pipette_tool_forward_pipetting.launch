@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_forward_pipetting" output="screen">
+        <param name="baudrate" type="int" value="9600"/>
+        <param name="device" type="str" value="/dev/pipette_tool"/>
+        <param name="pipetting_default_speed"  value="0.0"/>    <!-- No liquid in tip @ full speed -->
+        <param name="pipetting_aspirate_speed" value="0.010"/>  <!-- Liquid in tip @ 10 mm/sec     -->
+        <param name="pipetting_dispense_speed" value="0.003"/>  <!-- Liquid in tip @ 3 mm/sec      -->
+        <param name="pipetting_purge_speed"    value="0.003"/>  <!-- Liquid in tip @ 3 mm/sec      -->
+        <param name="pipetting_eject_speed"    value="0.0"/>    <!-- Eject tip @ full speed        -->
+    </node>
+</launch>
