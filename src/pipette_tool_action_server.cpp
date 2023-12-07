@@ -24,125 +24,70 @@ void PipetteToolActionServer::goalCB() {
 	PipetteToolControlErr* p_err = &err;
 	ROS_WARN("Pipette Command entered");
 
-	if (goal.mode == goal.MODE_FORWARD) {
-		switch (goal.action) {
-			case goal.ACTION_HOMING:
-				ptc_.homing(goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Homing failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_INIT:
-				ptc_.forward_init(goal.offset_nl, goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Init failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_ASPIRATE:
-				ptc_.forward_aspirate(goal.volume_nl, goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Aspirate failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_ASPIRATE_SEQ:
-				ptc_.forward_aspirate_sequence(goal.volume_nl, goal.velocity, goal.sequence, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Aspirate Sequence failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_DISPENSE:
-				ptc_.forward_dispense(goal.volume_nl, goal.offset_nl, goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					ROS_INFO("Volume = %d", goal.volume_nl);
-					ROS_INFO("Offset = %d", goal.offset_nl);
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Dispense failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_DISPENSE_SEQ:
-				ptc_.forward_dispense_sequence(goal.volume_nl, goal.offset_nl, goal.velocity, goal.sequence, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Dispense Sequence failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_EJECT:
-				ptc_.eject(p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Forward Eject failed: %d", res.err);
-				}
-				break;
-
-			default:
-				ROS_ERROR("Mode is inexistant");
+	switch (goal.action) {
+		case goal.ACTION_HOMING:
+			ptc_.homing(goal.velocity, p_err);
+			if (ptc_.err_get(p_err)) {
 				res.success = false;
-				res.err = 1;
-		}
-	} else if (goal.mode == goal.MODE_REVERSE) {
-		switch (goal.action) {
-			case goal.ACTION_HOMING:
-				ptc_.homing(goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Reverse Homing failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_INIT:
-				ptc_.reverse_init(goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Reverse Init failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_ASPIRATE:
-				ptc_.reverse_aspirate(goal.volume_nl, goal.offset_nl, goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Reverse Aspirate failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_DISPENSE:
-				ptc_.reverse_dispense(goal.volume_nl, goal.velocity, p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Reverse Dispense failed: %d", res.err);
-				}
-				break;
-			case goal.ACTION_EJECT:
-				ptc_.eject(p_err);
-				if (ptc_.err_get(p_err)) {
-					res.success = false;
-					res.err = (uint32_t)*p_err;
-					ROS_ERROR("Reverse Eject failed: %d", res.err);
-				}
-				break;
-
-			default:
-				ROS_ERROR("Mode is inexistant");
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Homing failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_MOVE_TO_SECOND_STOP:
+			ptc_.move_to_second_stop(goal.volume, goal.velocity, p_err);
+			if (ptc_.err_get(p_err)) {
 				res.success = false;
-				res.err = 1;
-		}
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Move To Second Stop failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_ASPIRATE:
+			ptc_.aspirate(goal.volume, goal.velocity, p_err);
+			if (ptc_.err_get(p_err)) {
+				res.success = false;
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Aspirate failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_ASPIRATE_SEQ:
+			ptc_.aspirate_sequence(goal.volume, goal.velocity, goal.sequence, p_err);
+			if (ptc_.err_get(p_err)) {
+				res.success = false;
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Aspirate Sequence failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_DISPENSE:
+			ptc_.dispense(goal.volume, goal.velocity, p_err);
+			if (ptc_.err_get(p_err)) {
+				ROS_INFO("Volume = %d", goal.volume);
+				res.success = false;
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Dispense failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_DISPENSE_SEQ:
+			ptc_.dispense_sequence(goal.volume, goal.velocity, goal.sequence, p_err);
+			if (ptc_.err_get(p_err)) {
+				res.success = false;
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Dispense Sequence failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_EJECT:
+			ptc_.eject(p_err);
+			// ptc_.eject(goal.velocity, p_err);
+			if (ptc_.err_get(p_err)) {
+				res.success = false;
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Eject failed: %d", res.err);
+			}
+			break;
 
-	} else {
-		ROS_ERROR("Mode is inexistant");
-		res.success = false;
-		res.err = 1;
+		default:
+			ROS_ERROR("Mode is inexistant");
+			res.success = false;
+			res.err = 1;
 	}
 
 	if (res.success) {
