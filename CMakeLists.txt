@@ -61,8 +61,8 @@ add_library(robotic_tool ${ROBOTIC_TOOL_SRC})
 
 add_executable(pipette_tool_example src/example.cpp)
 add_executable(pipette_tool_action_server src/pipette_tool_action_server.cpp)
-add_executable(pipette_tool_action_client src/pipette_tool_action_client.cpp)
-add_executable(pipette_tool_action_client_multi_dispense src/pipette_tool_action_client_multi_dispense.cpp)
+add_executable(pipette_tool_action_client_forward_pipetting src/pipette_tool_action_client_forward_pipetting.cpp)
+add_executable(pipette_tool_action_client_reverse_pipetting src/pipette_tool_action_client_reverse_pipetting.cpp)
 
 target_link_libraries(pipette_tool_example
    ${catkin_LIBRARIES}
@@ -74,24 +74,24 @@ target_link_libraries(pipette_tool_action_server
    robotic_tool
    )
 
-target_link_libraries(pipette_tool_action_client
+target_link_libraries(pipette_tool_action_client_forward_pipetting
    ${catkin_LIBRARIES}
 )
 
-target_link_libraries(pipette_tool_action_client_multi_dispense
+target_link_libraries(pipette_tool_action_client_reverse_pipetting
    ${catkin_LIBRARIES}
 )
 
 add_dependencies(pipette_tool_action_server ${PROJECT_NAME}_generate_messages_cpp)
-add_dependencies(pipette_tool_action_client ${PROJECT_NAME}_generate_messages_cpp)
-add_dependencies(pipette_tool_action_client_multi_dispense ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_forward_pipetting ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_reverse_pipetting ${PROJECT_NAME}_generate_messages_cpp)
 
 
 install(TARGETS
     pipette_tool_example
     pipette_tool_action_server
-    pipette_tool_action_client
-    pipette_tool_action_client_multi_dispense
+    pipette_tool_action_client_forward_pipetting
+    pipette_tool_action_client_reverse_pipetting
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

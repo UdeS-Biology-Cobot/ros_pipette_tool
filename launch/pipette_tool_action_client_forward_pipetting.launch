@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_action_client_forward_pipetting" output="screen">
+        <param name="action_server_topic" type="str" value="/udes_pipette"/>
+    </node>
+</launch>
