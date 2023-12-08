@@ -22,7 +22,6 @@ void PipetteToolActionServer::goalCB() {
 
 	PipetteToolControlErr err = PipetteToolControlErr::NONE;
 	PipetteToolControlErr* p_err = &err;
-	ROS_WARN("Pipette Command entered");
 
 	switch (goal.action) {
 		case goal.ACTION_HOMING:
