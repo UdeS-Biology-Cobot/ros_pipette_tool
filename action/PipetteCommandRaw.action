@@ -1,0 +1,7 @@
+PipetteCommandRaw command
+---
+bool success
+uint32 err
+---
+float32 completion   # TODO %
+bool moving

@@ -17,12 +17,14 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
    FILES
    PipetteCommand.msg
+   PipetteCommandRaw.msg
 )
 
 ## Generate actions in the 'action' folder
 add_action_files(
    FILES
    PipetteCommand.action
+   PipetteCommandRaw.action
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -60,9 +62,13 @@ include_directories(
 add_library(robotic_tool ${ROBOTIC_TOOL_SRC})
 
 add_executable(pipette_tool_forward_pipetting src/pipette_tool_forward_pipetting.cpp)
+
 add_executable(pipette_tool_action_server src/pipette_tool_action_server.cpp)
 add_executable(pipette_tool_action_client_forward_pipetting src/pipette_tool_action_client_forward_pipetting.cpp)
 add_executable(pipette_tool_action_client_reverse_pipetting src/pipette_tool_action_client_reverse_pipetting.cpp)
+
+add_executable(pipette_tool_raw_action_server src/pipette_tool_raw_action_server.cpp)
+add_executable(pipette_tool_raw_action_client_up_down src/pipette_tool_raw_action_client_up_down.cpp)
 
 target_link_libraries(pipette_tool_forward_pipetting
    ${catkin_LIBRARIES}
@@ -72,7 +78,7 @@ target_link_libraries(pipette_tool_forward_pipetting
 target_link_libraries(pipette_tool_action_server
    ${catkin_LIBRARIES}
    robotic_tool
-   )
+)
 
 target_link_libraries(pipette_tool_action_client_forward_pipetting
    ${catkin_LIBRARIES}
@@ -82,16 +88,29 @@ target_link_libraries(pipette_tool_action_client_reverse_pipetting
    ${catkin_LIBRARIES}
 )
 
+target_link_libraries(pipette_tool_raw_action_server
+   ${catkin_LIBRARIES}
+   robotic_tool
+)
+
+target_link_libraries(pipette_tool_raw_action_client_up_down
+   ${catkin_LIBRARIES}
+)
+
 add_dependencies(pipette_tool_action_server ${PROJECT_NAME}_generate_messages_cpp)
 add_dependencies(pipette_tool_action_client_forward_pipetting ${PROJECT_NAME}_generate_messages_cpp)
 add_dependencies(pipette_tool_action_client_reverse_pipetting ${PROJECT_NAME}_generate_messages_cpp)
 
+add_dependencies(pipette_tool_raw_action_server ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_raw_action_client_up_down ${PROJECT_NAME}_generate_messages_cpp)
 
 install(TARGETS
     pipette_tool_forward_pipetting
     pipette_tool_action_server
     pipette_tool_action_client_forward_pipetting
     pipette_tool_action_client_reverse_pipetting
+    pipette_tool_raw_action_server
+    pipette_tool_raw_action_client_up_down
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

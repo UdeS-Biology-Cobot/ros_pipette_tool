@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="action_server_topic" default="/robotic_tools/pipette"/>
+
+    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_raw_action_client_up_down" output="screen">
+        <param name="action_server_topic" value="$(arg action_server_topic)"/>
+
+        <param name="default_speed"      value="0.0"/>
+        <param name="speed_upward"       value="0.010"/>
+        <param name="speed_downward"     value="0.010"/>
+        <param name="distance_upward_mm" value="10"/>
+        <param name="distance_downward_mm"  value="10"/>
+    </node>
+</launch>
