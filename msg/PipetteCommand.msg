@@ -1,4 +1,4 @@
-uint8 ACTION_HOMING=0               # Initialies the pipette, no parameters (Must be done first )
+uint8 ACTION_HOMING=0               # Initialies the pipette
 uint8 ACTION_MOVE_TO_SECOND_STOP=1  # Move to the 2nd STOP, lowest position before ejecting tip. If the volume parameter
                                     # is different from 0, then the pipette will move to the 1st STOP position (2nd Stop + upward offset wrt. the volume parameter).
 uint8 ACTION_ASPIRATE=2             # Move upward wrt. the volume parameter
@@ -9,7 +9,6 @@ uint8 ACTION_EJECT=6                # Move to the lowest position, then move upw
 
 uint8 action
 
-# Action parameters
-float64 velocity        # Max velocity [m/s]
-uint32  volume          # Volume to aspirate/dispense [nL -> nano liter]
-uint32  sequence        # Number of back and forth
+float64 velocity        # Max velocity (m/s)
+uint32  volume          # Volume to aspirate/dispense (nL)
+uint32  sequence        # Number of back and forth (only used in actions ending with '_SEQ')
