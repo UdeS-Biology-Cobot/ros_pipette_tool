@@ -40,7 +40,7 @@ void PipetteToolRawActionServer::goalCB() {
 			}
 			break;
 		case goal.ACTION_MOVE_TO_TIP:
-			ptc_.move_to_tip(goal.velocity, p_err);
+			ptc_.move_to_tip(0, goal.velocity, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;
