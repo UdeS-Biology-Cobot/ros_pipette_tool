@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 
 	// 2- Move to First Stop
 	ROS_INFO("Action server started, sending goal: Move to First Stop");
-	goal.command.action = goal.command.ACTION_MOVE_TO_SECOND_STOP;
+	goal.command.action = goal.command.ACTION_MOVE_TO_1ST_STOP;
 	goal.command.volume = 10000;  // First Stop, 10 uL upward offset from 2nd stop for purging liquid (step 5)
 	goal.command.velocity = default_speed;
 	ac.sendGoal(goal);
@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 
 	// 5- Purge liquid (OPTION 1)
 	ROS_INFO("Action server started, sending goal: Purge");
-	goal.command.action = goal.command.ACTION_MOVE_TO_SECOND_STOP;
+	goal.command.action = goal.command.ACTION_MOVE_TO_2ND_STOP;
 	goal.command.volume = 0;  // Second STOP
 	goal.command.velocity = purge_speed;
 	ac.sendGoal(goal);

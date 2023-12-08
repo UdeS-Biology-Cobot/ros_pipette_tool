@@ -33,8 +33,16 @@ void PipetteToolActionServer::goalCB() {
 				ROS_ERROR("Homing failed: %d", res.err);
 			}
 			break;
-		case goal.ACTION_MOVE_TO_SECOND_STOP:
-			ptc_.move_to_second_stop(goal.volume, goal.velocity, p_err);
+		case goal.ACTION_MOVE_TO_1ST_STOP:
+			ptc_.move_to_first_stop(goal.volume, goal.velocity, p_err);
+			if (ptc_.err_get(p_err)) {
+				res.success = false;
+				res.err = (uint32_t)*p_err;
+				ROS_ERROR("Move To First Stop failed: %d", res.err);
+			}
+			break;
+		case goal.ACTION_MOVE_TO_2ND_STOP:
+			ptc_.move_to_second_stop(goal.velocity, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;

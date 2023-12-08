@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 
 	// 2- Move to Second Stop
 	ROS_INFO("Action server started, sending goal: Move to Second Stop");
-	goal.command.action = goal.command.ACTION_MOVE_TO_SECOND_STOP;
+	goal.command.action = goal.command.ACTION_MOVE_TO_2ND_STOP;
 	goal.command.volume = 0;  // Second Stop, no offset
 	goal.command.velocity = default_speed;
 	ac.sendGoal(goal);

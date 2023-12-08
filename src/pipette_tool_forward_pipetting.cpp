@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 
 	// 2- Move to first stop
 	ROS_INFO("Sending: Move to First Stop");
-	pt_ctrl.move_to_second_stop(10000, // 10 uL
+	pt_ctrl.move_to_first_stop(10000, // 10 uL
 								default_speed,
 								&err_pt_ctrl);
 	if (pt_ctrl.err_get(&err_pt_ctrl)) {
@@ -161,17 +161,15 @@ int main(int argc, char **argv)
 		return 0;
 	}
 
-	// 6- Purge (OPTION 1)
+	// 7- Purge (OPTION 1)
 	ROS_INFO("Sending: Purge");
-	pt_ctrl.move_to_second_stop(0, // no upward offset
-					            purge_speed,
-					            &err_pt_ctrl);
+	pt_ctrl.move_to_second_stop(purge_speed, &err_pt_ctrl);
 	if (pt_ctrl.err_get(&err_pt_ctrl)) {
 		std::cout << "PipetteToolControl error code = " << (uint32_t)err_pt_ctrl << std::endl;
 		return 0;
 	}
 
-	// 6- Purge (OPTION 2)
+	// 7- Purge (OPTION 2)
 	/*
 	ROS_INFO("Sending: Purge");
 	pt_ctrl.dispense(10000, // 10 uL
@@ -183,7 +181,7 @@ int main(int argc, char **argv)
 	}
 	*/
 
-	// 7- Eject Tip
+	// 8- Eject Tip
 	ROS_INFO("Sending: Eject Tip");
 	pt_ctrl.eject(eject_speed, &err_pt_ctrl);
 	if (pt_ctrl.err_get(&err_pt_ctrl)) {
