@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 		actionlib::SimpleClientGoalState state = ac.getState();
 		ROS_INFO("Action finished: %s", state.toString().c_str());
 	} else {
-		ROS_INFO("Action did not finish before the time out.");
+		ROS_ERROR("Action did not finish before the time out.");
 		return 0;
 	}
 
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 		actionlib::SimpleClientGoalState state = ac.getState();
 		ROS_INFO("Action finished: %s", state.toString().c_str());
 	} else {
-		ROS_INFO("Action did not finish before the time out.");
+		ROS_ERROR("Action did not finish before the time out.");
 		return 0;
 	}
 
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
 		actionlib::SimpleClientGoalState state = ac.getState();
 		ROS_INFO("Action finished: %s", state.toString().c_str());
 	} else {
-		ROS_INFO("Action did not finish before the time out.");
+		ROS_ERROR("Action did not finish before the time out.");
 		return 0;
 	}
 
@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 		actionlib::SimpleClientGoalState state = ac.getState();
 		ROS_INFO("Action finished: %s", state.toString().c_str());
 	} else {
-		ROS_INFO("Action did not finish before the time out.");
+		ROS_ERROR("Action did not finish before the time out.");
 		return 0;
 	}
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
 		actionlib::SimpleClientGoalState state = ac.getState();
 		ROS_INFO("Action finished: %s", state.toString().c_str());
 	} else {
-		ROS_INFO("Action did not finish before the time out.");
+		ROS_ERROR("Action did not finish before the time out.");
 		return 0;
 	}
 
