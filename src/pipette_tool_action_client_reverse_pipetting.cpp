@@ -50,11 +50,12 @@ int main(int argc, char** argv) {
 	// true causes the client to spin its own thread
 	actionlib::SimpleActionClient<ros_robotic_tools::PipetteCommandAction> ac(action_server_topic, true);
 
-	ROS_INFO("Waiting for action server to start.");
+	ROS_INFO("Waiting for action server to start...");
 	ac.waitForServer();  // will wait for infinite time
+	ROS_INFO("Action server started");
 
 	// 1- HOMING
-	ROS_INFO("Action server started, sending goal: HOMING");
+	ROS_INFO("Sending Goal: HOMING");
 	goal.command.action = goal.command.ACTION_HOMING;
 	ac.sendGoal(goal);
 
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
 		return 0;
 
 	// 2- Move to Second Stop
-	ROS_INFO("Action server started, sending goal: Move to Second Stop");
+	ROS_INFO("Sending Goal: Move to Second Stop");
 	goal.command.action = goal.command.ACTION_MOVE_TO_2ND_STOP;
 	goal.command.volume = 0;  // Second Stop, no offset
 	goal.command.velocity = default_speed;
@@ -72,7 +73,7 @@ int main(int argc, char** argv) {
 		return 0;
 
 	// 3- Aspirate 60 uL
-	ROS_INFO("Action server started, sending goal: Aspirate 60 uL");
+	ROS_INFO("Sending Goal: Aspirate 60 uL");
 	goal.command.action = goal.command.ACTION_ASPIRATE;
 	goal.command.volume = 60000;  // 60 uL
 	goal.command.velocity = aspirate_speed;
@@ -82,7 +83,7 @@ int main(int argc, char** argv) {
 		return 0;
 
 	// 4- Dispense 50 uL
-	ROS_INFO("Action server started, sending goal: Dispense 50 uL");
+	ROS_INFO("Sending Goal: Dispense 50 uL");
 	goal.command.action = goal.command.ACTION_DISPENSE;
 	goal.command.volume = 50000;  // 50 uL
 	goal.command.velocity = dispense_speed;
@@ -92,7 +93,7 @@ int main(int argc, char** argv) {
 		return 0;
 
 	// 5- Eject Tip
-	ROS_INFO("Action server started, sending goal: Eject Tip");
+	ROS_INFO("Sending Goal: Eject Tip");
 	goal.command.action = goal.command.ACTION_EJECT;
 	goal.command.velocity = eject_speed;
 	ac.sendGoal(goal);
