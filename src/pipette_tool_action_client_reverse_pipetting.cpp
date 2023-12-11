@@ -4,6 +4,27 @@
 #include <ros_robotic_tools/PipetteCommandAction.h>
 #include <ros_robotic_tools/PipetteCommand.h>
 
+bool validate_action(actionlib::SimpleActionClient<ros_robotic_tools::PipetteCommandAction>& ac, double timeout) {
+	// wait for the action to return
+	if (ac.waitForResult(ros::Duration(timeout))) {
+		actionlib::SimpleClientGoalState state = ac.getState();
+
+		if (state.state_ == state.SUCCEEDED) {
+			ROS_INFO("Action Succeeded");
+			return true;
+		} else {
+			ROS_ERROR("Action finished: %s", state.toString().c_str());
+			return false;
+		}
+
+	} else {
+		ROS_ERROR("Action did not finish before the time out.");
+		return false;
+	}
+
+	return true;
+}
+
 int main(int argc, char** argv) {
 	ros::init(argc, argv, "pipette_tool_action_client_reverse_pipetting");
 
@@ -37,14 +58,8 @@ int main(int argc, char** argv) {
 	goal.command.action = goal.command.ACTION_HOMING;
 	ac.sendGoal(goal);
 
-	// wait for the action to return
-	if (ac.waitForResult(ros::Duration(timeout))) {
-		actionlib::SimpleClientGoalState state = ac.getState();
-		ROS_INFO("Action finished: %s", state.toString().c_str());
-	} else {
-		ROS_ERROR("Action did not finish before the time out.");
+	if (!validate_action(ac, timeout))
 		return 0;
-	}
 
 	// 2- Move to Second Stop
 	ROS_INFO("Action server started, sending goal: Move to Second Stop");
@@ -53,13 +68,8 @@ int main(int argc, char** argv) {
 	goal.command.velocity = default_speed;
 	ac.sendGoal(goal);
 
-	if (ac.waitForResult(ros::Duration(timeout))) {
-		actionlib::SimpleClientGoalState state = ac.getState();
-		ROS_INFO("Action finished: %s", state.toString().c_str());
-	} else {
-		ROS_ERROR("Action did not finish before the time out.");
+	if (!validate_action(ac, timeout))
 		return 0;
-	}
 
 	// 3- Aspirate 60 uL
 	ROS_INFO("Action server started, sending goal: Aspirate 60 uL");
@@ -68,13 +78,8 @@ int main(int argc, char** argv) {
 	goal.command.velocity = aspirate_speed;
 	ac.sendGoal(goal);
 
-	if (ac.waitForResult(ros::Duration(timeout))) {
-		actionlib::SimpleClientGoalState state = ac.getState();
-		ROS_INFO("Action finished: %s", state.toString().c_str());
-	} else {
-		ROS_ERROR("Action did not finish before the time out.");
+	if (!validate_action(ac, timeout))
 		return 0;
-	}
 
 	// 4- Dispense 50 uL
 	ROS_INFO("Action server started, sending goal: Dispense 50 uL");
@@ -83,13 +88,8 @@ int main(int argc, char** argv) {
 	goal.command.velocity = dispense_speed;
 	ac.sendGoal(goal);
 
-	if (ac.waitForResult(ros::Duration(timeout))) {
-		actionlib::SimpleClientGoalState state = ac.getState();
-		ROS_INFO("Action finished: %s", state.toString().c_str());
-	} else {
-		ROS_ERROR("Action did not finish before the time out.");
+	if (!validate_action(ac, timeout))
 		return 0;
-	}
 
 	// 5- Eject Tip
 	ROS_INFO("Action server started, sending goal: Eject Tip");
@@ -97,13 +97,8 @@ int main(int argc, char** argv) {
 	goal.command.velocity = eject_speed;
 	ac.sendGoal(goal);
 
-	if (ac.waitForResult(ros::Duration(timeout))) {
-		actionlib::SimpleClientGoalState state = ac.getState();
-		ROS_INFO("Action finished: %s", state.toString().c_str());
-	} else {
-		ROS_ERROR("Action did not finish before the time out.");
+	if (!validate_action(ac, timeout))
 		return 0;
-	}
 
 	ROS_INFO("Successfull Forward Pipetting");
 	return 0;
