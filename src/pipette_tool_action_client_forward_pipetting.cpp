@@ -56,15 +56,7 @@ int main(int argc, char** argv) {
 	ac.waitForServer();  // will wait for infinite time
 	ROS_INFO("Action server started");
 
-	// 1- HOMING
-	ROS_INFO("Sending Goal: HOMING");
-	goal.command.action = goal.command.ACTION_HOMING;
-	ac.sendGoal(goal);
-
-	if (!validate_action(ac, timeout))
-		return 0;
-
-	// 2- Move to First Stop
+	// 1- Move to First Stop
 	ROS_INFO("Sending Goal: Move to First Stop");
 	goal.command.action = goal.command.ACTION_MOVE_TO_1ST_STOP;
 	goal.command.volume = 10000;  // First Stop, 10 uL upward offset from 2nd stop for purging liquid (step 5)
@@ -74,7 +66,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 3- Aspirate 50 uL
+	// 2- Aspirate 50 uL
 	ROS_INFO("Sending Goal: Aspirate 50 uL");
 	goal.command.action = goal.command.ACTION_ASPIRATE;
 	goal.command.volume = 50000;  // 50 uL
@@ -84,7 +76,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 4- Dispense 50 uL
+	// 3- Dispense 50 uL
 	ROS_INFO("Sending Goal: Dispense 50 uL");
 	goal.command.action = goal.command.ACTION_DISPENSE;
 	goal.command.volume = 50000;  // 50 uL
@@ -94,7 +86,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 5- Purge liquid (OPTION 1)
+	// 4- Purge liquid (OPTION 1)
 	ROS_INFO("Sending Goal: Purge");
 	goal.command.action = goal.command.ACTION_MOVE_TO_2ND_STOP;
 	goal.command.volume = 0;  // Second STOP
@@ -104,7 +96,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 5- Purge liquid (OPTION 2)
+	// 4- Purge liquid (OPTION 2)
 	/*
 	ROS_INFO("Sending Goal: Purge");
 	goal.command.action = goal.command.DISPENSE;
@@ -116,7 +108,7 @@ int main(int argc, char** argv) {
 	   return 0;
 	*/
 
-	// 6- Eject Tip
+	// 5- Eject Tip
 	ROS_INFO("Sending Goal: Eject Tip");
 	goal.command.action = goal.command.ACTION_EJECT;
 	goal.command.velocity = eject_speed;

@@ -24,14 +24,6 @@ void PipetteToolActionServer::goalCB() {
 	PipetteToolControlErr* p_err = &err;
 
 	switch (goal.action) {
-		case goal.ACTION_HOMING:
-			ptc_.homing(goal.velocity, p_err);
-			if (ptc_.err_get(p_err)) {
-				res.success = false;
-				res.err = (uint32_t)*p_err;
-				ROS_ERROR("Homing failed: %d", res.err);
-			}
-			break;
 		case goal.ACTION_MOVE_TO_1ST_STOP:
 			ptc_.move_to_first_stop(goal.volume, goal.velocity, p_err);
 			if (ptc_.err_get(p_err)) {

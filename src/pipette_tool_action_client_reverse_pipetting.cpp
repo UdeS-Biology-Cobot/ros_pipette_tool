@@ -54,15 +54,7 @@ int main(int argc, char** argv) {
 	ac.waitForServer();  // will wait for infinite time
 	ROS_INFO("Action server started");
 
-	// 1- HOMING
-	ROS_INFO("Sending Goal: HOMING");
-	goal.command.action = goal.command.ACTION_HOMING;
-	ac.sendGoal(goal);
-
-	if (!validate_action(ac, timeout))
-		return 0;
-
-	// 2- Move to Second Stop
+	// 1- Move to Second Stop
 	ROS_INFO("Sending Goal: Move to Second Stop");
 	goal.command.action = goal.command.ACTION_MOVE_TO_2ND_STOP;
 	goal.command.volume = 0;  // Second Stop, no offset
@@ -72,7 +64,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 3- Aspirate 60 uL
+	// 2- Aspirate 60 uL
 	ROS_INFO("Sending Goal: Aspirate 60 uL");
 	goal.command.action = goal.command.ACTION_ASPIRATE;
 	goal.command.volume = 60000;  // 60 uL
@@ -82,7 +74,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 4- Dispense 50 uL
+	// 3- Dispense 50 uL
 	ROS_INFO("Sending Goal: Dispense 50 uL");
 	goal.command.action = goal.command.ACTION_DISPENSE;
 	goal.command.volume = 50000;  // 50 uL
@@ -92,7 +84,7 @@ int main(int argc, char** argv) {
 	if (!validate_action(ac, timeout))
 		return 0;
 
-	// 5- Eject Tip
+	// 4- Eject Tip
 	ROS_INFO("Sending Goal: Eject Tip");
 	goal.command.action = goal.command.ACTION_EJECT;
 	goal.command.velocity = eject_speed;
