@@ -66,6 +66,11 @@ add_executable(pipette_tool_forward_pipetting src/pipette_tool_forward_pipetting
 add_executable(pipette_tool_action_server src/pipette_tool_action_server.cpp)
 add_executable(pipette_tool_action_client_forward_pipetting src/pipette_tool_action_client_forward_pipetting.cpp)
 add_executable(pipette_tool_action_client_reverse_pipetting src/pipette_tool_action_client_reverse_pipetting.cpp)
+add_executable(pipette_tool_action_client_aspirate src/pipette_tool_action_client_aspirate.cpp)
+add_executable(pipette_tool_action_client_dispense src/pipette_tool_action_client_dispense.cpp)
+add_executable(pipette_tool_action_client_move_to_1st_stop src/pipette_tool_action_client_move_to_1st_stop.cpp)
+add_executable(pipette_tool_action_client_move_to_2nd_stop src/pipette_tool_action_client_move_to_2nd_stop.cpp)
+add_executable(pipette_tool_action_client_eject_tip src/pipette_tool_action_client_eject_tip.cpp)
 
 add_executable(pipette_tool_raw_action_server src/pipette_tool_raw_action_server.cpp)
 add_executable(pipette_tool_raw_action_client_up_down src/pipette_tool_raw_action_client_up_down.cpp)
@@ -88,6 +93,26 @@ target_link_libraries(pipette_tool_action_client_reverse_pipetting
    ${catkin_LIBRARIES}
 )
 
+target_link_libraries(pipette_tool_action_client_aspirate
+   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(pipette_tool_action_client_dispense
+   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(pipette_tool_action_client_move_to_1st_stop
+   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(pipette_tool_action_client_move_to_2nd_stop
+   ${catkin_LIBRARIES}
+)
+
+target_link_libraries(pipette_tool_action_client_eject_tip
+   ${catkin_LIBRARIES}
+)
+
 target_link_libraries(pipette_tool_raw_action_server
    ${catkin_LIBRARIES}
    robotic_tool
@@ -100,6 +125,11 @@ target_link_libraries(pipette_tool_raw_action_client_up_down
 add_dependencies(pipette_tool_action_server ${PROJECT_NAME}_generate_messages_cpp)
 add_dependencies(pipette_tool_action_client_forward_pipetting ${PROJECT_NAME}_generate_messages_cpp)
 add_dependencies(pipette_tool_action_client_reverse_pipetting ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_aspirate ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_dispense ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_move_to_1st_stop ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_move_to_2nd_stop ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(pipette_tool_action_client_eject_tip ${PROJECT_NAME}_generate_messages_cpp)
 
 add_dependencies(pipette_tool_raw_action_server ${PROJECT_NAME}_generate_messages_cpp)
 add_dependencies(pipette_tool_raw_action_client_up_down ${PROJECT_NAME}_generate_messages_cpp)
@@ -109,6 +139,11 @@ install(TARGETS
     pipette_tool_action_server
     pipette_tool_action_client_forward_pipetting
     pipette_tool_action_client_reverse_pipetting
+    pipette_tool_action_client_aspirate
+    pipette_tool_action_client_dispense
+    pipette_tool_action_client_move_to_1st_stop
+    pipette_tool_action_client_move_to_2nd_stop
+    pipette_tool_action_client_eject_tip
     pipette_tool_raw_action_server
     pipette_tool_raw_action_client_up_down
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

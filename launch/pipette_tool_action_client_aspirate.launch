@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="action_server_topic" default="/robotic_tools/pipette"/>
+    <arg name="volume" />
+    <arg name="speed"        default="0.01"/>
+
+    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_action_client_aspirate" output="screen">
+        <param name="action_server_topic" value="$(arg action_server_topic)"/>
+
+        <param name="volume" value="$(arg volume)"/>
+        <param name="speed"  value="$(arg speed)"/>
+    </node>
+</launch>

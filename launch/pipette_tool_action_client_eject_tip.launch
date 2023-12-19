@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="action_server_topic" default="/robotic_tools/pipette"/>
+
+    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_action_client_eject_tip" output="screen">
+        <param name="action_server_topic" value="$(arg action_server_topic)"/>
+    </node>
+</launch>
