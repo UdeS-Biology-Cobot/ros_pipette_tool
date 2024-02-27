@@ -23,9 +23,12 @@ void PipetteToolActionServer::goalCB() {
 	PipetteToolControlErr err = PipetteToolControlErr::NONE;
 	PipetteToolControlErr* p_err = &err;
 
+	// volume L -> nL
+	uint32_t volume_nL = static_cast<uint32_t>(goal.volume * 1e9);
+
 	switch (goal.action) {
 		case goal.ACTION_MOVE_TO_1ST_STOP:
-			ptc_.move_to_first_stop(goal.volume, goal.velocity, p_err);
+			ptc_.move_to_first_stop(volume_nL, goal.velocity, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;
@@ -42,9 +45,9 @@ void PipetteToolActionServer::goalCB() {
 			break;
 		case goal.ACTION_ASPIRATE:
 			if (goal.back_and_forth == 0)
-				ptc_.aspirate(goal.volume, goal.velocity, p_err);
+				ptc_.aspirate(volume_nL, goal.velocity, p_err);
 			else
-				ptc_.aspirate_sequence(goal.volume, goal.velocity, goal.back_and_forth * 2, p_err);
+				ptc_.aspirate_sequence(volume_nL, goal.velocity, goal.back_and_forth * 2, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;
@@ -53,11 +56,11 @@ void PipetteToolActionServer::goalCB() {
 			break;
 		case goal.ACTION_DISPENSE:
 			if (goal.back_and_forth == 0)
-				ptc_.dispense(goal.volume, goal.velocity, p_err);
+				ptc_.dispense(volume_nL, goal.velocity, p_err);
 			else
-				ptc_.dispense_sequence(goal.volume, goal.velocity, goal.back_and_forth * 2, p_err);
+				ptc_.dispense_sequence(volume_nL, goal.velocity, goal.back_and_forth * 2, p_err);
 			if (ptc_.err_get(p_err)) {
-				ROS_INFO("Volume = %d", goal.volume);
+				ROS_INFO("Volume = %d", volume_nL);
 				res.success = false;
 				res.err = (uint32_t)*p_err;
 				ROS_ERROR("Dispense failed: %d", res.err);

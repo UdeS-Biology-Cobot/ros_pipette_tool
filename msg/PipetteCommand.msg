@@ -7,5 +7,5 @@ uint8 ACTION_EJECT=4                # Move to the lowest position, then move upw
 uint8 action
 
 float64 velocity        # Max velocity (m/s)
-uint32  volume          # Volume to aspirate/dispense (nL)
+float64 volume          # Volume to aspirate/dispense (Liter)
 uint32  back_and_forth  # Number of back and forth, only used in ASPIRATE and DISPENSE actions
