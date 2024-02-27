@@ -41,36 +41,26 @@ void PipetteToolActionServer::goalCB() {
 			}
 			break;
 		case goal.ACTION_ASPIRATE:
-			ptc_.aspirate(goal.volume, goal.velocity, p_err);
+			if (goal.back_and_forth == 0)
+				ptc_.aspirate(goal.volume, goal.velocity, p_err);
+			else
+				ptc_.aspirate_sequence(goal.volume, goal.velocity, goal.back_and_forth * 2, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;
 				ROS_ERROR("Aspirate failed: %d", res.err);
 			}
 			break;
-		case goal.ACTION_ASPIRATE_SEQ:
-			ptc_.aspirate_sequence(goal.volume, goal.velocity, goal.sequence, p_err);
-			if (ptc_.err_get(p_err)) {
-				res.success = false;
-				res.err = (uint32_t)*p_err;
-				ROS_ERROR("Aspirate Sequence failed: %d", res.err);
-			}
-			break;
 		case goal.ACTION_DISPENSE:
-			ptc_.dispense(goal.volume, goal.velocity, p_err);
+			if (goal.back_and_forth == 0)
+				ptc_.dispense(goal.volume, goal.velocity, p_err);
+			else
+				ptc_.dispense_sequence(goal.volume, goal.velocity, goal.back_and_forth * 2, p_err);
 			if (ptc_.err_get(p_err)) {
 				ROS_INFO("Volume = %d", goal.volume);
 				res.success = false;
 				res.err = (uint32_t)*p_err;
 				ROS_ERROR("Dispense failed: %d", res.err);
-			}
-			break;
-		case goal.ACTION_DISPENSE_SEQ:
-			ptc_.dispense_sequence(goal.volume, goal.velocity, goal.sequence, p_err);
-			if (ptc_.err_get(p_err)) {
-				res.success = false;
-				res.err = (uint32_t)*p_err;
-				ROS_ERROR("Dispense Sequence failed: %d", res.err);
 			}
 			break;
 		case goal.ACTION_EJECT:
