@@ -33,12 +33,12 @@ int main(int argc, char** argv) {
 	double timeout = 10.0;
 	std::string action_server_topic;
 	double speed;
-	int volume;
+	double volume;
 
 	// retrieve parameters
 	pnh.param<std::string>("action_server_topic", action_server_topic, "udes_pipette");
 	pnh.param<double>("speed", speed, 0.01);
-	pnh.param<int>("volume", volume, 0);
+	pnh.param<double>("volume", volume, 0);
 
 	ros_robotic_tools::PipetteCommandGoal goal;
 
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 	ROS_INFO("Action server started");
 
 	// Move to 1st Stop
-	ROS_INFO_STREAM("Sending Goal: Move to 1st Stop @ " << speed << " m/s with an offset of " << volume << " nL");
+	ROS_INFO_STREAM("Sending Goal: Move to 1st Stop @ " << speed << " m/s with an offset of " << volume << " L");
 	goal.command.action = goal.command.ACTION_MOVE_TO_1ST_STOP;
 	goal.command.volume = volume;
 	goal.command.velocity = speed;

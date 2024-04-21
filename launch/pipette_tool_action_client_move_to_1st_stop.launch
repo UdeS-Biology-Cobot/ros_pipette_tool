@@ -7,7 +7,7 @@
     <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_action_client_move_to_1st_stop" output="screen">
         <param name="action_server_topic" value="$(arg action_server_topic)"/>
 
-        <param name="volume" type="int"    value="$(arg upward_volume_offset)"/>
+        <param name="volume" type="double"    value="$(arg upward_volume_offset)"/>
         <param name="speed"  type="double" value="$(arg speed)"/>
     </node>
 </launch>

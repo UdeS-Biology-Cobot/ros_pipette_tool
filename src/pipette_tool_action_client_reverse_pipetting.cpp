@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 	// 2- Aspirate 60 uL
 	ROS_INFO("Sending Goal: Aspirate 60 uL");
 	goal.command.action = goal.command.ACTION_ASPIRATE;
-	goal.command.volume = 60000;  // 60 uL
+	goal.command.volume = 0.00006;  // 60 uL
 	goal.command.velocity = aspirate_speed;
 	ac.sendGoal(goal);
 
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 	// 3- Dispense 50 uL
 	ROS_INFO("Sending Goal: Dispense 50 uL");
 	goal.command.action = goal.command.ACTION_DISPENSE;
-	goal.command.volume = 50000;  // 50 uL
+	goal.command.volume = 0.00005;  // 50 uL
 	goal.command.velocity = dispense_speed;
 	ac.sendGoal(goal);
 

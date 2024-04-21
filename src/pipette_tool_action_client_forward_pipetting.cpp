@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 	// 1- Move to First Stop
 	ROS_INFO("Sending Goal: Move to First Stop");
 	goal.command.action = goal.command.ACTION_MOVE_TO_1ST_STOP;
-	goal.command.volume = 10000;  // First Stop, 10 uL upward offset from 2nd stop for purging liquid (step 5)
+	goal.command.volume = 0.00001;  // First Stop, 10 uL upward offset from 2nd stop for purging liquid (step 5)
 	goal.command.velocity = default_speed;
 	ac.sendGoal(goal);
 
@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
 	// 2- Aspirate 50 uL
 	ROS_INFO("Sending Goal: Aspirate 50 uL");
 	goal.command.action = goal.command.ACTION_ASPIRATE;
-	goal.command.volume = 50000;  // 50 uL
+	goal.command.volume = 0.00005;  // 50 uL
 	goal.command.velocity = aspirate_speed;
 	ac.sendGoal(goal);
 
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 	// 3- Dispense 50 uL
 	ROS_INFO("Sending Goal: Dispense 50 uL");
 	goal.command.action = goal.command.ACTION_DISPENSE;
-	goal.command.volume = 50000;  // 50 uL
+	goal.command.volume = 0.00005;  // 50 uL
 	goal.command.velocity = dispense_speed;
 	ac.sendGoal(goal);
 
