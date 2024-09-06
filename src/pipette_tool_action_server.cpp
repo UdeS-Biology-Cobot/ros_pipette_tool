@@ -47,7 +47,7 @@ void PipetteToolActionServer::goalCB() {
 			if (goal.back_and_forth == 0)
 				ptc_.aspirate(volume_nL, goal.velocity, p_err);
 			else
-				ptc_.aspirate_sequence(volume_nL, goal.velocity, goal.back_and_forth * 2, p_err);
+				ptc_.aspirate_sequence(volume_nL, goal.velocity, goal.back_and_forth, p_err);
 			if (ptc_.err_get(p_err)) {
 				res.success = false;
 				res.err = (uint32_t)*p_err;
@@ -58,7 +58,7 @@ void PipetteToolActionServer::goalCB() {
 			if (goal.back_and_forth == 0)
 				ptc_.dispense(volume_nL, goal.velocity, p_err);
 			else
-				ptc_.dispense_sequence(volume_nL, goal.velocity, goal.back_and_forth * 2, p_err);
+				ptc_.dispense_sequence(volume_nL, goal.velocity, goal.back_and_forth, p_err);
 			if (ptc_.err_get(p_err)) {
 				ROS_INFO("Volume = %d", volume_nL);
 				res.success = false;

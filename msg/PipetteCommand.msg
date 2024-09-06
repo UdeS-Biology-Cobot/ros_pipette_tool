@@ -9,3 +9,4 @@ uint8 action
 float64 velocity        # Max velocity (m/s)
 float64 volume          # Volume to aspirate/dispense (Liter)
 uint32  back_and_forth  # Number of back and forth, only used in ASPIRATE and DISPENSE actions
+                        # E.g. ACTION_ASPIRATE with back_and_forth = 3 would do this sequence: aspirate, dispense, aspirate
