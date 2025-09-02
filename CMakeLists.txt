@@ -34,16 +34,16 @@ add_action_files(
    actionlib_msgs
 )
 
-# Robotic Tool Lib submodule includes + sources
-set(ROBOTIC_TOOL_INCLUDE_DIRS ext/pipette-tool-sw/include)
-file(GLOB_RECURSE ROBOTIC_TOOL_SRC CONFIGURE_DEPENDS "ext/pipette-tool-sw/src/*.cpp")
+# Pipette Tool Lib submodule includes + sources
+set(PIPETTE_TOOL_INCLUDE_DIRS ext/pipette-tool-sw/include)
+file(GLOB_RECURSE PIPETTE_TOOL_SRC CONFIGURE_DEPENDS "ext/pipette-tool-sw/src/*.cpp")
 
 catkin_package(
   # LIBRARIES
   #   ${PROJECT_NAME}
   INCLUDE_DIRS
     include
-    ${ROBOTIC_TOOL_INCLUDE_DIRS}
+    ${PIPETTE_TOOL_INCLUDE_DIRS}
   CATKIN_DEPENDS
     roscpp
     rospy
@@ -55,11 +55,11 @@ catkin_package(
 include_directories(
   include
   ${Boost_INCLUDE_DIRS}
-  ${ROBOTIC_TOOL_INCLUDE_DIRS}
+  ${PIPETTE_TOOL_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(robotic_tool ${ROBOTIC_TOOL_SRC})
+add_library(pipette_tool ${PIPETTE_TOOL_SRC})
 
 add_executable(action_server src/action_server.cpp)
 add_executable(forward_pipetting src/forward_pipetting.cpp)
@@ -74,7 +74,7 @@ add_executable(raw_action_server src/raw_action_server.cpp)
 add_executable(raw_up_down src/raw_up_down.cpp)
 
 
-target_link_libraries(action_server ${catkin_LIBRARIES} robotic_tool)
+target_link_libraries(action_server ${catkin_LIBRARIES} pipette_tool)
 target_link_libraries(forward_pipetting ${catkin_LIBRARIES})
 target_link_libraries(reverse_pipetting ${catkin_LIBRARIES})
 target_link_libraries(aspirate ${catkin_LIBRARIES})
@@ -83,7 +83,7 @@ target_link_libraries(move_to_1st_stop ${catkin_LIBRARIES})
 target_link_libraries(move_to_2nd_stop ${catkin_LIBRARIES})
 target_link_libraries(eject_tip ${catkin_LIBRARIES})
 
-target_link_libraries(raw_action_server ${catkin_LIBRARIES} robotic_tool)
+target_link_libraries(raw_action_server ${catkin_LIBRARIES} pipette_tool)
 target_link_libraries(raw_up_down ${catkin_LIBRARIES})
 
 add_dependencies(action_server ${PROJECT_NAME}_generate_messages_cpp)
