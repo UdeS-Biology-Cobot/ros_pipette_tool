@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
-  <name>ros_robotic_tools</name>
+  <name>ros_pipette_tool</name>
   <version>0.0.0</version>
-  <description>Client to communicate with robotic tools</description>
+  <description>ROS wrapper to communicate with the pipette tool</description>
 
-  <maintainer email="todo@todo.todo">biobot</maintainer>
+  <maintainer email="captain.yoshisaur@gmail.com">Captain Yoshi</maintainer>
 
   <license>BSD-3-Clause</license>
 

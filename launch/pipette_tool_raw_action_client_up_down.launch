@@ -10,7 +10,7 @@
 
 
 
-    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_raw_action_client_up_down" output="screen">
+    <node name="pipette_tool_action_client" pkg="ros_pipette_tool" type="raw_up_down" output="screen">
         <param name="action_server_topic" value="$(arg action_server_topic)"/>
 
         <param name="default_speed"        value="$(arg default_speed)"/>

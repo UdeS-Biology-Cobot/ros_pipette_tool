@@ -1,10 +1,10 @@
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
-#include <ros_robotic_tools/PipetteCommandRawAction.h>
-#include <ros_robotic_tools/PipetteCommandRaw.h>
+#include <ros_pipette_tool/PipetteCommandRawAction.h>
+#include <ros_pipette_tool/PipetteCommandRaw.h>
 
-bool validate_action(actionlib::SimpleActionClient<ros_robotic_tools::PipetteCommandRawAction>& ac, double timeout) {
+bool validate_action(actionlib::SimpleActionClient<ros_pipette_tool::PipetteCommandRawAction>& ac, double timeout) {
 	// wait for the action to return
 	if (ac.waitForResult(ros::Duration(timeout))) {
 		actionlib::SimpleClientGoalState state = ac.getState();
@@ -46,11 +46,11 @@ int main(int argc, char** argv) {
 	pnh.param<double>("distance_upward_mm", distance_upward_mm, 5);
 	pnh.param<double>("distance_downward_mm", distance_downward_mm, 5);
 
-	ros_robotic_tools::PipetteCommandRawGoal goal;
+	ros_pipette_tool::PipetteCommandRawGoal goal;
 
 	// create the action client
 	// true causes the client to spin its own thread
-	actionlib::SimpleActionClient<ros_robotic_tools::PipetteCommandRawAction> ac(action_server_topic, true);
+	actionlib::SimpleActionClient<ros_pipette_tool::PipetteCommandRawAction> ac(action_server_topic, true);
 
 	ROS_INFO("Waiting for action server to start...");
 	ac.waitForServer();  // will wait for infinite time

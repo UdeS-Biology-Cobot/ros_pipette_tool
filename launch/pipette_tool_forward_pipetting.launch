@@ -3,7 +3,7 @@
     <arg name="device" default="/dev/pipette_tool"/>
     <arg name="baudrate" default="9600"/>
 
-    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_forward_pipetting" output="screen">
+    <node name="pipette_tool_action_client" pkg="ros_pipette_tool" type="forward_pipetting" output="screen">
         <param name="device" value="$(arg device)"/>
         <param name="baudrate" value="$(arg baudrate)"/>
         <param name="pipetting_default_speed"  value="0.0"/>    <!-- No liquid in tip @ full speed -->

@@ -1,5 +1,5 @@
 
-#include <ros_robotic_tools/pipette_tool_action_server.h>
+#include <ros_pipette_tool/pipette_tool_action_server.h>
 
 PipetteToolActionServer::PipetteToolActionServer(std::string name, PipetteToolControl& ptc)
   : as_(nh_, name, false), action_name_(name), ptc_(ptc) {
@@ -14,9 +14,9 @@ PipetteToolActionServer::PipetteToolActionServer(std::string name, PipetteToolCo
 PipetteToolActionServer::~PipetteToolActionServer(void) {}
 
 void PipetteToolActionServer::goalCB() {
-	ros_robotic_tools::PipetteCommand goal = as_.acceptNewGoal()->command;
+	ros_pipette_tool::PipetteCommand goal = as_.acceptNewGoal()->command;
 
-	ros_robotic_tools::PipetteCommandResult res;
+	ros_pipette_tool::PipetteCommandResult res;
 	res.success = true;
 	res.err = 0;
 
