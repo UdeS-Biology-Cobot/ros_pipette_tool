@@ -4,7 +4,7 @@
     <arg name="volume" />
     <arg name="speed"        default="0.01"/>
 
-    <node name="pipette_tool_action_client" pkg="ros_robotic_tools" type="pipette_tool_action_client_dispense" output="screen">
+    <node name="pipette_tool_action_client" pkg="ros_pipette_tool" type="dispense" output="screen">
         <param name="action_server_topic" value="$(arg action_server_topic)"/>
 
         <param name="volume" value="$(arg volume)"/>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(ros_robotic_tools)
+project(ros_pipette_tool)
 
 set(CMAKE_CXX_STANDARD 14)
 

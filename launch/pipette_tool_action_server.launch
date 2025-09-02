@@ -4,7 +4,7 @@
     <arg name="baudrate" default="9600"/>
     <arg name="action_server_topic" default="/robotic_tools/pipette"/>
 
-    <node name="pipette_tool_action_server" pkg="ros_robotic_tools" type="pipette_tool_action_server" output="screen">
+    <node name="pipette_tool_action_server" pkg="ros_pipette_tool" type="action_server" output="screen">
         <param name="device" value="$(arg device)"/>
         <param name="baudrate" value="$(arg baudrate)"/>
         <param name="action_server_topic" value="$(arg action_server_topic)"/>
